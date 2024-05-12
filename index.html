@@ -14,13 +14,14 @@
 
     <nav class="navbar sticky-top bg-dark navbar-expand-lg bg-body-tertiary mb-3" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <img src="logo.png" alt="Logo" height="24" class="d-inline-block align-text-top">
                 Pokédex PokéAPI
             </a>
 
             <div class="dropdown">
-                <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                <!-- menu dropdown -->
+                <button id="gen" class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     Escojer Generación
                 </button>
@@ -40,6 +41,10 @@
     </nav>
 
     <div class="container">
+        <div class="d-grid gap-2 mb-3" id="loading">
+            <!-- carga -->
+        </div>
+
         <div id="tarjetas">
             <!-- donde se insertaran las tarjetas -->
         </div>
@@ -50,7 +55,7 @@
     <footer>
         <nav class="navbar bg-dark bg-body-tertiary" data-bs-theme="dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Pokémon and Pokémon character names are trademarks of Nintendo.</a>
+                <p class="navbar-brand">Pokémon and Pokémon character names are trademarks of Nintendo.</p>
             </div>
         </nav>
     </footer>
@@ -62,4 +67,3 @@
 </body>
 
 </html>
-

@@ -38,7 +38,7 @@ async function renderCard(min, max) {
     let load = document.getElementById("loading");
     load.innerHTML = `<button class="btn btn-primary" type="button">
         <div class="d-flex align-items-center">
-            <strong role="status">Loading...</strong>
+            <strong role="status">Cargando, mientras carga no se puede escojer generación...</strong>
             <div class="spinner-grow ms-auto" aria-hidden="true"></div>
         </div>
     </button>`

@@ -1,7 +1,7 @@
 // https://pokeapi.co/api/v2/pokemon/id
 
-async function obtenerPokemon(limit, offset) {
-    const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`
+async function obtenerPokemon(id) {
+    const url = `https://pokeapi.co/api/v2/pokemon/${id}`
 
     // primero hacemos el fetch al api para obtener los datos
     const res = await fetch(url);
@@ -11,18 +11,6 @@ async function obtenerPokemon(limit, offset) {
 
     // console.log("res:", res);
     // console.log("data:", data);
-
-    // ahora obtener el arreglo con los pokemon
-    const pokemon = data.results;
-
-    console.log(pokemon);
-
-    return pokemon;
-}
-
-async function obtenerUnPokemon(url) {
-    const res = await fetch(url);
-    const data = await res.json();
 
     return data;
 }
@@ -41,20 +29,27 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-async function renderCard(limit, offset) {
-    // obtener lista de pokemon
-    const pokemon = await obtenerPokemon(limit, offset);
+async function renderCard(min, max) {
+    // comportamiento mientras cargan los pokemon
+    let genButton = document.getElementById('gen');
+    genButton.disabled = true;
+    genButton.classList = "btn btn-secondary dropdown-toggle"
+
+    let load = document.getElementById("loading");
+    load.innerHTML = `<button class="btn btn-primary" type="button">
+        <div class="d-flex align-items-center">
+            <strong role="status">Loading...</strong>
+            <div class="spinner-grow ms-auto" aria-hidden="true"></div>
+        </div>
+    </button>`
 
     // Obtener la parte del documento para insertar dentro las tarjetas
     const tarjetas = document.getElementById("tarjetas")
-
     tarjetas.innerHTML = "";
 
-    for (let i in pokemon) {
-        // obtener solo el url del pokemon
-        const { url } = pokemon[i]
+    for (let i = min; i <= max; i++) {
         // obtener los datos del pokemon
-        const poke = await obtenerUnPokemon(url);
+        const pokemon = await obtenerPokemon(i);
 
         const {
             name,
@@ -65,7 +60,7 @@ async function renderCard(limit, offset) {
             abilities,
             stats,
             sprites,
-        } = poke;
+        } = pokemon;
 
         const imagenPokemon = sprites.other["official-artwork"].front_default
 
@@ -83,7 +78,7 @@ async function renderCard(limit, offset) {
                 <li>${capitalizeFirstLetter(abilities[1].ability.name)}</li>
             </ul>`
         }
-        
+
         const card = `
         <div class="card mb-3">
             <div class="row g-0">
@@ -158,39 +153,44 @@ async function renderCard(limit, offset) {
 
         tarjetas.append(div)
     }
+
+    // comportamiento al terminar de cargar los pokemon
+    load.innerHTML = ""
+    genButton.disabled = false;
+    genButton.classList = "btn btn-info dropdown-toggle"
 }
 
 function renderGeneracion(gen) {
     switch (gen) {
         case 1:
-            renderCard(151, 0);
+            renderCard(1, 151);
             break;
         case 2:
-            renderCard(100, 151);
+            renderCard(152, 251);
             break;
         case 3:
-            renderCard(135, 251);
+            renderCard(252, 386);
             break;
         case 4:
-            renderCard(107, 386);
+            renderCard(387, 493);
             break;
         case 5:
-            renderCard(156, 493);
+            renderCard(494, 649);
             break;
         case 6:
-            renderCard(72, 649);
+            renderCard(650, 721);
             break;
         case 7:
-            renderCard(88, 721);
+            renderCard(722, 809);
             break;
         case 8:
-            renderCard(96, 809);
+            renderCard(810, 905);
             break;
         case 9:
-            renderCard(120, 905);
+            renderCard(906, 1025);
             break;
         default:
-            renderCard(151, 0);
+            renderCard(1, 151);
             break;
     }
 }
